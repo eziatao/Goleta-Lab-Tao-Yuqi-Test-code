@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "YELP-DATA-PROCESSING"
+version = "1.2.0"
+description = "A reproducible CLI pipeline for structured aspect-level Yelp data"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["openpyxl>=3.1.5,<4"]
+
+[project.scripts]
+yelp-data = "yelp_data_processing.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
