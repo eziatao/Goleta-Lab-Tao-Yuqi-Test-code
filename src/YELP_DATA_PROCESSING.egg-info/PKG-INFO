@@ -1,0 +1,212 @@
+Metadata-Version: 2.4
+Name: YELP-DATA-PROCESSING
+Version: 1.2.0
+Summary: A reproducible CLI pipeline for structured aspect-level Yelp data
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: openpyxl<4,>=3.1.5
+
+# YELP-DATA-PROCESSING
+
+Python 命令行项目，将句子级 Yelp 方面四元组聚合为评论，关联整体情感，筛选商家，计算情感值及方面向量。五步均通过实际 Excel 文件串联，支持分步执行。输入文件保持原样。
+
+## 安装
+
+需要 Python 3.10+，唯一运行依赖是 openpyxl 3.1.5–3.x。Windows PowerShell 示例：
+
+```powershell
+cd 'C:\codex project\YELP-DATA-PROCESSING'
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install .
+.\.venv\Scripts\yelp-data.exe --help
+```
+
+开发安装可用 `python -m pip install -e .`。不需要激活虚拟环境。macOS/Linux 使用 `python3 -m venv .venv`，然后 `.venv/bin/python -m pip install .`。也支持 `python -m yelp_data_processing`，参数与 `yelp-data` 相同。
+
+## 数据与目录
+
+```text
+C:\codex project\
+├─ data\
+│  ├─ yelp-top300-final-0.7.json
+│  └─ overall-sentiment.xlsx
+└─ YELP-DATA-PROCESSING\
+   ├─ pyproject.toml
+   ├─ README.md
+   ├─ src/yelp_data_processing/
+   │  ├─ cli.py / pipeline.py / common.py / excel_io.py / analysis.py
+   │  ├─ json_to_excel.py
+   │  ├─ data_indexing.py
+   │  ├─ data_filter.py
+   │  ├─ sentiment_counting.py
+   │  └─ aspect_vector_creating.py
+   ├─ tests/test_pipeline.py
+   ├─ scripts/demo.py / run_tests.py / validate_real.py
+   ├─ test/                     # 持久保存测试输出
+   │  ├─ json_to_excel.xlsx / output.xlsx / filted.xlsx
+   │  ├─ sentiment_counted.xlsx / yelp_data_processed.xlsx
+   │  ├─ demo/                 # 小样例各步结果
+   │  └─ unit/                 # 每个集成测试的输入和输出
+   └─ outputs/                 # 常规 run 命令默认输出
+```
+
+JSON 为 UTF-8（兼容 BOM）数组：
+
+```json
+[
+  {"sentence": "Nice food.", "quads": [["food", "nice", "food quality", "positive"]], "ID": "2019-3-1"},
+  {"sentence": "Slow service.", "quads": [["service", "slow", "service general", "Negative"]], "ID": "2019-3-2"}
+]
+```
+
+每条记录需要 `sentence`（字符串）、`quads`（列表）、`ID`（字符串）；每个四元组严格四项，每项为字符串或 JSON null。允许空 quads。ID 采用数字段 `年份-评论号-句子号`，也兼容已有的两段 ID。保留前两段文本，包括前导零；没有自动补零或改写 ID。
+
+元数据 Excel 首行必须为字段名，默认读取第一个工作表，可用 `--sheet` 指定。必须有唯一的两段 `ID`、`business_name`、`Positive`、`Negative`、`Neutral`、`Date`，兼容小写 `date`。日期为 Excel 日期或不带时区的 ISO 日期字符串，输出为 Excel 日期值。情感值必须为有限、非负数字（也接受数字字符串），不强制三项之和为 1。多余元数据列不导入。
+
+自动定位优先使用 `yelp-top300-final-0.7.json`、`overall-sentiment.xlsx`，兼容无扩展名 JSON 和需求中的 `overall-sentimen.xlsx`。两种名字同时存在时选择上述优先名称，实际输入路径记录在 `run_report.json`。
+
+## 一次运行五步
+
+在项目目录执行：
+
+```powershell
+.\.venv\Scripts\yelp-data.exe run --data-dir ..\data --output-dir outputs
+```
+
+或显式指定文件（两项一起提供）：
+
+```powershell
+.\.venv\Scripts\yelp-data.exe run --json ..\data\yelp-top300-final-0.7.json --metadata ..\data\overall-sentiment.xlsx --output-dir outputs --min-count 20 --tie-break positive
+```
+
+标准输出为 JSON，标准错误输出为进度/错误，成功退出码 0，数据或参数错误为 2。
+
+| 阶段 | 文件 | 规则 |
+| --- | --- | --- |
+| json_to_excel | json_to_excel.xlsx | 按 ID 前两个连字符分段汇总；四元组按 JSON 记录出现顺序和记录内顺序串联；列为 ID、quads-1-1 … quads-n-4 |
+| data_indexing | output.xlsx | 精确匹配两段 ID，按顺序追加 business_name、Positive、Negative、Neutral、Date |
+| data_filter | filted.xlsx | 按汇总后的评论数统计同名商家，保留至少 20 条的商家；ID 按各段整数升序 |
+| sentiment_counting | sentiment_counted.xlsx | 每行选最大情感，正面保留值、负面取负、中性置零；删除原三列并替换为 sentiment |
+| aspect_vector_creating | yelp_data_processed.xlsx | 最终只保留 ID、business_name、date、sentiment 和方面向量列；方面列顺序按筛选后数据的首次出现顺序 |
+
+`filted.xlsx` 保留需求中的拼写。第一步最终输出按要求只含 ID 与展开四元组，因此不保留 sentence；原始句子可在输入 JSON 中按 ID 查回。重复句子 ID 不自动去重，按源记录顺序全部合并；这避免静默丢失四元组。
+
+情感并列默认顺序为 **Positive > Negative > Neutral**。`--tie-break negative` 或 `neutral` 把所选类别移到首位，其余顺序不变；精确浮点值相等才视为并列，计数写入运行报告。
+
+方面名称去掉首尾空白，保留大小写和内部空格。空字符串/null 方面不参与；字符串 `NULL`、`None`、`nan` 是实际文本，不会隐式当作缺失。第四项不区分大小写并去掉首尾空白；positive +1、negative -1、neutral +0，重复方面累加。出现过但中性或正负抵消为 **0**，未出现为 **999**。已知拼写 `negatives` 默认按 negative 计数，报告转换次数；`--strict-polarities` 禁用此兼容，未知或空极性直接报错。前四步保留四元组原始文本；第五步完成计算后删除全部 quads-*、Positive、Negative、Neutral 及其他非最终字段。最终字段顺序固定为 `ID、business_name、date、sentiment、方面向量列`，将输入的 `Date` 统一输出为小写 `date`，也兼容输入已使用 `date`。真实计数若恰好为 999 则报错，防止与缺失标记混淆。方面名称与已有字段冲突也报错。
+
+## 分步命令
+
+```powershell
+.\.venv\Scripts\yelp-data.exe json_to_excel --input ..\data\yelp-top300-final-0.7.json --output outputs\json_to_excel.xlsx
+.\.venv\Scripts\yelp-data.exe data_indexing --input outputs\json_to_excel.xlsx --metadata ..\data\overall-sentiment.xlsx --output outputs\output.xlsx
+.\.venv\Scripts\yelp-data.exe data_filter --input outputs\output.xlsx --output outputs\filted.xlsx --min-count 20
+.\.venv\Scripts\yelp-data.exe sentiment_counting --input outputs\filted.xlsx --output outputs\sentiment_counted.xlsx --tie-break positive
+.\.venv\Scripts\yelp-data.exe aspect_vector_creating --input outputs\sentiment_counted.xlsx --output outputs\yelp_data_processed.xlsx
+```
+
+五个命令同时支持连字符名称，例如 `json-to-excel`。
+
+## 查询、分析与导出
+
+```powershell
+.\.venv\Scripts\yelp-data.exe query --input outputs\yelp_data_processed.xlsx --id 2019-3 --output outputs\query_2019_3.xlsx
+.\.venv\Scripts\yelp-data.exe query --input outputs\yelp_data_processed.xlsx --business 'Milktooth' --limit 50
+.\.venv\Scripts\yelp-data.exe analyze --input outputs\yelp_data_processed.xlsx --output outputs\analysis.json
+```
+
+查询为精确匹配，ID 和商家同时提供时取交集；返回总匹配数及限制后的记录，默认最多 20 条，Excel 导出也受 `--limit` 限制。无匹配时返回零行且导出表头。分析统计评论数、商家频数、正负/零情感数、平均情感，以及各方面涉及评论数和净计数。**方面统计排除 999**；零情感可能来自中性获胜，也可能是最高输入分数为零，不能据此反推类别。
+
+## 自动化测试与完整演示
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe scripts\demo.py
+```
+
+演示生成确定性的小数据（20 条评论的商家保留，19 条的商家剔除），随后调用已安装的 CLI 完成导入、关联、筛选、情感分析、向量化、ID 查询与 Excel 导出、汇总分析，自动断言结果。文件写入 `test/demo/`，五步 Excel 均直接保存在该目录。自动化测试把每个集成测试的文件保存在 `test/unit/<测试名称>/`，执行结束不删除，覆盖多四元组合并、精确关联、重复/缺失 ID、19/20 阈值、自然排序、三类情感和并列、方面抵消/中性/缺失、大小写、未知标签、空数据、文本安全与完整 CLI。
+
+真实数据实际运行结果及执行命令见 `VALIDATION.md` 和 `test/run_report.json`。全量独立核验可运行 `python scripts/validate_real.py --data-dir ../data --output-dir test`（此辅助脚本针对本次实际文件名和小写 date 列，核心 CLI 兼容性更宽）。
+
+### 保存并查看全部测试结果
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_tests.py
+.\.venv\Scripts\python.exe scripts\run_tests.py --data-dir ..\data
+```
+
+第一条执行自动化测试和小样例。第二条还执行真实数据的完整五步、查询、分析和独立核验，五个真实 Excel 直接保存到项目 `test/` 下，文件名为 `json_to_excel.xlsx`、`output.xlsx`、`filted.xlsx`、`sentiment_counted.xlsx`、`yelp_data_processed.xlsx`。每次执行覆盖对应同名测试文件；结果不会在测试结束时删除。`test/test_results.json` 记录实际命令、退出码，各步骤日志也保留在该文件夹。
+
+`tests/` 是测试代码，`test/` 是可查看的测试结果。独立核验同时验证前一步的原始四元组和最终精简表的全部方面向量。
+
+## 新增拓展模块（1.2.0）
+
+在原有项目中增加 `src/yelp_data_processing/extensions/`，原五步的处理模块和 `run` 行为保持不变。`extend` 接收已经生成的精简版 `yelp_data_processed.xlsx`，执行以下三个独立步骤。原命令无须改名，仍按上面的示例运行。
+
+```powershell
+.\.venv\Scripts\yelp-data.exe extend --input outputs\yelp_data_processed.xlsx --output-dir outputs
+```
+
+| 独立命令 | 输出文件 | 计算规则 |
+| --- | --- | --- |
+| attribute_filter | attribute_filter.xlsx | 统计每个方面不等于 999 的评论数，取最多的 10 个；保留 ID、business_name、date、sentiment |
+| business_consistency_counting | business_consistency_counted.xlsx | 为每条评论增加 consistency，再增加同商家的 business_aspect_consistency 均值 |
+| average_sentiment_counting | yelp_data_processed_updated.xlsx | 按数字分段 ID 升序排序，增加全表前 10 条记录的 sentiment 均值 average_sentiment_10 |
+
+分步执行：
+
+```powershell
+.\.venv\Scripts\yelp-data.exe attribute_filter --input outputs\yelp_data_processed.xlsx --output outputs\attribute_filter.xlsx
+.\.venv\Scripts\yelp-data.exe business_consistency_counting --input outputs\attribute_filter.xlsx --output outputs\business_consistency_counted.xlsx
+.\.venv\Scripts\yelp-data.exe average_sentiment_counting --input outputs\business_consistency_counted.xlsx --output outputs\yelp_data_processed_updated.xlsx
+```
+
+三个独立命令也支持连字符名称，例如 `attribute-filter`。正常退出码 0，数据错误退出码 2。文件按步骤实际读写；不会改写输入的 `yelp_data_processed.xlsx`。`extension_report.json` 保存每个方面的非 999 次数、所选方面、阶段输出路径与耗时。再次运行会覆盖同名拓展输出，失败状态和已完成步骤以该报告为准。
+
+### 计算口径
+
+- **方面筛选：** 0 和负值均计入出现次数，只有 999 表示未涉及。出现次数并列时按输入 Excel 的列顺序选择，输出方面列按出现次数降序排列。原始方面不足 10 个时保留全部；不虚构额外方面。空表仍保留最多 10 个方面表头，按原列序解决零次出现的并列。方面数值必须有限且不缺失，缺失应明确编码为 999；非法值报错。
+- **consistency：** 按已确认规则，剔除 999 后，对该行剩余方面值计算总体标准差 `sqrt(sum((x - mean(x))²) / n)`，即 `ddof=0`。一个有效值时为 0，没有有效值时 Excel 单元格留空。标准差不再取倒数或改变方向；数值越小表示各方面值越接近。
+- **business_aspect_consistency：** 对相同 business_name 的所有非空 consistency 求算术平均。0 正常参与，空值忽略；同商家每行赋同一个均值，即使某行自身 consistency 为空。一个商家全部缺失时均值也留空。统计范围是该商家在整个输入表中的所有评论。
+- **average_sentiment_10：** 全表按 ID 的数字段排序，跨商家计算，排除当前行。第 1 行留空，第 2 行仅取第 1 行，第 10 行取前 9 行，第 11 行起取前 10 行。缺少/非法 sentiment 报错，不静默跳过。这里是前序记录的顺序均值，未按 date 排序，也没有按商家分别滚动。
+- 最终列顺序为四个基础字段、最多 10 个方面列、`consistency`、`business_aspect_consistency`、`average_sentiment_10`。本次真实数据最终为 17 列。新统计列不会被旧 `analyze` 命令当成方面列。
+
+### 拓展测试与本地结果
+
+使用已有处理结果运行测试，无需重跑原始五步：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_tests.py --extension-input test\yelp_data_processed.xlsx
+```
+
+这条命令执行原测试、新增拓展测试、原五步小样例、真实数据三步拓展及独立全量核验。三个真实输出均直接保存到项目 `test/`：
+
+```text
+test/
+├─ attribute_filter.xlsx
+├─ business_consistency_counted.xlsx
+├─ yelp_data_processed_updated.xlsx
+├─ extension_report.json
+├─ extension_validation.json
+└─ extension_unit/             # 新测试的小样例与三步输出，执行后保留
+```
+
+如果想从原始数据执行原五步和拓展三步，则运行 `python scripts/run_tests.py --data-dir ../data`；新入口在原有五步测试后继续执行拓展。`python -m unittest discover -s tests -v` 同样会执行新旧测试并保存集成测试文件，但不会自动处理全量真实数据。命令、退出码和日志保存在 `test/test_results.json`、`test/*.log`，测试结束不删除任何已生成的结果。
+
+独立核验脚本可单独运行：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\validate_extension.py --input test\yelp_data_processed.xlsx --output-dir test
+```
+
+它重新计算筛选次数、逐行标准差、商家均值和前序均值，逐单元格检查三个输出，并验证列顺序、ID 顺序和空值规则。该脚本使用独立计算表达式，不调用新增模块的计算函数。
+
+## 当前限制
+
+- 这是单机批处理工具；JSON 和各阶段结果在内存中，Excel 流式读写降低工作簿开销，但超大数据仍需更多内存和时间。每个 Excel 单表最多 1,048,575 条数据行、16,384 列、每个字符串单元格 32,767 字符；超限或非法控制字符报错，避免静默截断。
+- 只支持 `.xlsx`，不支持 `.xls`、密码保护、合并表头。读取公式缓存值，不计算公式；必需字段没有缓存会报错。
+- 元数据 ID 必须唯一，重复即报错（即使内容相同）；缺失匹配、缺失商家、无效分数或日期会中止，不生成看似完整的结果。
+- 同名商家会按 business_name 合并，不按 business_id 区分分店；大小写、首尾空白不自动合并商家。
+- 第五步方面词表仅来自过滤后评论，未保留商家独有的方面不会生成列；最终文件只保留四个基础字段与方面列；原始四元组可在前四步文件中查阅。
+- 不自动纠正未知标签；不执行源文本中的 Excel 公式。Excel 输出是计算后的值，改输入后需重跑命令。
+- 同名输出原子替换；整个五步流程不是跨文件事务。失败前已完成的阶段仍保留，旧的后续文件也可能保留，应以 `run_report.json` 的 status 和完成阶段为准。独立命令不更新该全流程报告。运行前关闭 Excel 中打开的目标文件，避免 Windows 占用导致写入失败。

@@ -1,0 +1,2 @@
+[console_scripts]
+yelp-data = yelp_data_processing.cli:main
