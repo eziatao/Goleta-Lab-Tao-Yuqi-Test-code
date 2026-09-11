@@ -1,0 +1,13 @@
+Running unit: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe -m unittest discover -s tests -v
+unit: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+Running demo: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe scripts/demo.py
+demo: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+Running pipeline: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe -m yelp_data_processing run --data-dir "C:\codex project\data" --output-dir C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+pipeline: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+Running query: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe -m yelp_data_processing query --input C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test\yelp_data_processed.xlsx --id 2019-3 --output C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test\query_2019_3.xlsx
+query: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+Running analysis: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe -m yelp_data_processing analyze --input C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test\yelp_data_processed.xlsx --output C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test\analysis.json
+analysis: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+Running independent_validation: C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\.venv\Scripts\python.exe scripts/validate_real.py --data-dir "C:\codex project\data" --output-dir C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+independent_validation: exit 0; files saved in C:\Users\EzioTao\Documents\Codex\2026-09-11\c-codex-project-yelp-data-processing\work\project\test
+All tests passed. Every stage output remains in test/.

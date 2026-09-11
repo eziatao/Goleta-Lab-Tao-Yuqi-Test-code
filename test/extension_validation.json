@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "verified_reviews": 81577,
+  "selected_counts": {
+    "food quality": 40705,
+    "service general": 23892,
+    "restaurant general": 22663,
+    "restaurant miscellaneous": 13714,
+    "ambience general": 11517,
+    "food style_options": 5912,
+    "drinks quality": 5083,
+    "food prices": 2646,
+    "restaurant prices": 1956,
+    "location general": 1930
+  },
+  "output_columns": 17,
+  "empty_consistency_reviews": 370,
+  "businesses_without_consistency": 0,
+  "verified_files": [
+    "attribute_filter.xlsx",
+    "business_consistency_counted.xlsx",
+    "yelp_data_processed_updated.xlsx"
+  ]
+}
