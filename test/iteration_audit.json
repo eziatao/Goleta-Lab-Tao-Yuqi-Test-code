@@ -1,0 +1,33 @@
+{
+  "original_core_modules_unchanged": [
+    "json_to_excel.py",
+    "data_indexing.py",
+    "data_filter.py",
+    "sentiment_counting.py",
+    "aspect_vector_creating.py",
+    "pipeline.py",
+    "common.py",
+    "excel_io.py"
+  ],
+  "modified_existing_python_files": [
+    "scripts/run_tests.py",
+    "src/yelp_data_processing/analysis.py",
+    "src/yelp_data_processing/cli.py",
+    "src/yelp_data_processing/__init__.py"
+  ],
+  "unchanged_existing_python_files": [
+    "scripts/demo.py",
+    "scripts/validate_real.py",
+    "tests/test_pipeline.py",
+    "src/yelp_data_processing/aspect_vector_creating.py",
+    "src/yelp_data_processing/common.py",
+    "src/yelp_data_processing/data_filter.py",
+    "src/yelp_data_processing/data_indexing.py",
+    "src/yelp_data_processing/excel_io.py",
+    "src/yelp_data_processing/json_to_excel.py",
+    "src/yelp_data_processing/pipeline.py",
+    "src/yelp_data_processing/sentiment_counting.py",
+    "src/yelp_data_processing/__main__.py"
+  ],
+  "new_module": "src/yelp_data_processing/extensions"
+}
