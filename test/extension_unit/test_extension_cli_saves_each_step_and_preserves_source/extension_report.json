@@ -1,0 +1,62 @@
+{
+  "status": "complete",
+  "input": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\extension_unit\\test_extension_cli_saves_each_step_and_preserves_source\\yelp_data_processed.xlsx",
+  "stages": {
+    "attribute_filter": {
+      "reviews": 14,
+      "selected_aspects": [
+        "aspect_01",
+        "aspect_02",
+        "aspect_03",
+        "aspect_04",
+        "aspect_05",
+        "aspect_06",
+        "aspect_07",
+        "aspect_08",
+        "aspect_09",
+        "aspect_10"
+      ],
+      "non_999_counts": {
+        "aspect_01": 13,
+        "aspect_02": 12,
+        "aspect_03": 12,
+        "aspect_04": 12,
+        "aspect_05": 12,
+        "aspect_06": 12,
+        "aspect_07": 12,
+        "aspect_08": 12,
+        "aspect_09": 12,
+        "aspect_10": 12,
+        "aspect_11": 1,
+        "aspect_12": 1
+      },
+      "removed_aspects": [
+        "aspect_11",
+        "aspect_12"
+      ],
+      "tie_rule": "original_column_order",
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\extension_unit\\test_extension_cli_saves_each_step_and_preserves_source\\attribute_filter.xlsx",
+      "elapsed_seconds": 0.017
+    },
+    "business_consistency_counting": {
+      "reviews": 14,
+      "businesses": 2,
+      "empty_consistency_reviews": 1,
+      "standard_deviation": "population (ddof=0)",
+      "sentinel_999": "excluded",
+      "empty_values": "blank, excluded from business mean",
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\extension_unit\\test_extension_cli_saves_each_step_and_preserves_source\\business_consistency_counted.xlsx",
+      "elapsed_seconds": 0.013
+    },
+    "average_sentiment_counting": {
+      "reviews": 14,
+      "window": 10,
+      "include_current_row": false,
+      "grouping": "entire_dataset",
+      "first_row_average": "blank",
+      "sort": "numeric ID segments",
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\extension_unit\\test_extension_cli_saves_each_step_and_preserves_source\\yelp_data_processed_updated.xlsx",
+      "elapsed_seconds": 0.014
+    }
+  }
+}

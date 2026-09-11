@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "inputs": {
+    "json": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\yelp-top300-final-0.7.json",
+    "metadata": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\overall-sentimen.xlsx"
+  },
+  "stages": {
+    "json_to_excel": {
+      "input_sentences": 1,
+      "output_reviews": 1,
+      "quad_columns": 4,
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\empty\\json_to_excel.xlsx",
+      "elapsed_seconds": 0.007
+    },
+    "data_indexing": {
+      "matched_reviews": 1,
+      "metadata_rows": 1,
+      "unmatched_reviews": 0,
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\empty\\output.xlsx",
+      "elapsed_seconds": 0.012
+    },
+    "data_filter": {
+      "input_reviews": 1,
+      "retained_reviews": 0,
+      "removed_reviews": 1,
+      "retained_businesses": 0,
+      "removed_businesses": 1,
+      "min_count": 20,
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\empty\\filted.xlsx",
+      "elapsed_seconds": 0.012
+    },
+    "sentiment_counting": {
+      "reviews": 0,
+      "ties": 0,
+      "tie_break": "positive",
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\empty\\sentiment_counted.xlsx",
+      "elapsed_seconds": 0.009
+    },
+    "aspect_vector_creating": {
+      "reviews": 0,
+      "aspect_columns": [],
+      "normalized_negatives": 0,
+      "output": "C:\\codex project\\YELP-DATA-PROCESSING\\test\\unit\\test_full_file_pipeline_and_header_only_output\\empty\\yelp_data_processed.xlsx",
+      "elapsed_seconds": 0.008
+    }
+  }
+}

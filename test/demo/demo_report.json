@@ -1,0 +1,103 @@
+[
+  {
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe -m yelp_data_processing run --json C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\source.json --metadata C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\metadata.xlsx --output-dir C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo",
+    "exit_code": 0,
+    "result": {
+      "status": "complete",
+      "inputs": {
+        "json": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\source.json",
+        "metadata": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\metadata.xlsx"
+      },
+      "stages": {
+        "json_to_excel": {
+          "input_sentences": 40,
+          "output_reviews": 39,
+          "quad_columns": 12,
+          "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\json_to_excel.xlsx",
+          "elapsed_seconds": 0.015
+        },
+        "data_indexing": {
+          "matched_reviews": 39,
+          "metadata_rows": 39,
+          "unmatched_reviews": 0,
+          "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\output.xlsx",
+          "elapsed_seconds": 0.026
+        },
+        "data_filter": {
+          "input_reviews": 39,
+          "retained_reviews": 20,
+          "removed_reviews": 19,
+          "retained_businesses": 1,
+          "removed_businesses": 1,
+          "min_count": 20,
+          "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\filted.xlsx",
+          "elapsed_seconds": 0.018
+        },
+        "sentiment_counting": {
+          "reviews": 20,
+          "ties": 0,
+          "tie_break": "positive",
+          "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\sentiment_counted.xlsx",
+          "elapsed_seconds": 0.014
+        },
+        "aspect_vector_creating": {
+          "reviews": 20,
+          "aspect_columns": [
+            "food quality",
+            "service general"
+          ],
+          "normalized_negatives": 0,
+          "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\yelp_data_processed.xlsx",
+          "elapsed_seconds": 0.013
+        }
+      }
+    }
+  },
+  {
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe -m yelp_data_processing query --input C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\yelp_data_processed.xlsx --id 2019-1 --output C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\query.xlsx",
+    "exit_code": 0,
+    "result": {
+      "matched": 1,
+      "returned": 1,
+      "records": [
+        {
+          "ID": "2019-1",
+          "business_name": "Keep Cafe",
+          "date": "2019-01-01 00:00:00",
+          "sentiment": 0.8,
+          "food quality": 0,
+          "service general": 0
+        }
+      ]
+    }
+  },
+  {
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe -m yelp_data_processing analyze --input C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\yelp_data_processed.xlsx --output C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\analysis.json",
+    "exit_code": 0,
+    "result": {
+      "reviews": 20,
+      "businesses": 1,
+      "positive_reviews": 20,
+      "negative_reviews": 0,
+      "zero_sentiment_reviews": 0,
+      "mean_sentiment": 0.8,
+      "business_counts": {
+        "Keep Cafe": 20
+      },
+      "aspects": {
+        "food quality": {
+          "involved_reviews": 20,
+          "missing_reviews": 0,
+          "net_count": 19,
+          "mean_net_count_when_involved": 0.95
+        },
+        "service general": {
+          "involved_reviews": 1,
+          "missing_reviews": 19,
+          "net_count": 0,
+          "mean_net_count_when_involved": 0.0
+        }
+      }
+    }
+  }
+]
