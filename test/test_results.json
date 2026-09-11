@@ -1,0 +1,22 @@
+[
+  {
+    "name": "unit",
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe -m unittest discover -s tests -v",
+    "exit_code": 0
+  },
+  {
+    "name": "demo",
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe scripts/demo.py",
+    "exit_code": 0
+  },
+  {
+    "name": "extension",
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe -m yelp_data_processing extend --input C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\yelp_data_processed.xlsx --output-dir C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test",
+    "exit_code": 0
+  },
+  {
+    "name": "extension_validation",
+    "command": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\.venv\\Scripts\\python.exe scripts/validate_extension.py --input C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\yelp_data_processed.xlsx --output-dir C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test",
+    "exit_code": 0
+  }
+]

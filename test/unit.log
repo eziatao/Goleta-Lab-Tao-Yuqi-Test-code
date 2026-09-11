@@ -1,0 +1,38 @@
+test_average_uses_only_previous_ten_across_businesses (test_extensions.ExtensionTests.test_average_uses_only_previous_ten_across_businesses) ... ok
+test_consistency_signed_values (test_extensions.ExtensionTests.test_consistency_signed_values) ... ok
+test_duplicate_ids_missing_columns_and_unfiltered_input (test_extensions.ExtensionTests.test_duplicate_ids_missing_columns_and_unfiltered_input) ... ok
+test_extension_cli_saves_each_step_and_preserves_source (test_extensions.ExtensionTests.test_extension_cli_saves_each_step_and_preserves_source) ... ok
+test_individual_extension_commands (test_extensions.ExtensionTests.test_individual_extension_commands) ... ok
+test_invalid_aspect_values (test_extensions.ExtensionTests.test_invalid_aspect_values) ... ok
+test_original_five_cli_commands_still_work (test_extensions.ExtensionTests.test_original_five_cli_commands_still_work) ... ok
+test_overlapping_input_and_output_rejected (test_extensions.ExtensionTests.test_overlapping_input_and_output_rejected) ... ok
+test_population_sd_missing_singleton_and_group_mean (test_extensions.ExtensionTests.test_population_sd_missing_singleton_and_group_mean) ... ok
+test_small_and_empty_vocabularies (test_extensions.ExtensionTests.test_small_and_empty_vocabularies) ... ok
+test_top_ten_counts_zero_negative_and_stable_ties (test_extensions.ExtensionTests.test_top_ten_counts_zero_negative_and_stable_ties) ... ok
+test_updated_analysis_excludes_derived_statistics (test_extensions.ExtensionTests.test_updated_analysis_excludes_derived_statistics) ... ok
+test_cli_installed_module_and_failure_exit (test_pipeline.IntegrationTests.test_cli_installed_module_and_failure_exit) ... ok
+test_empty_json (test_pipeline.IntegrationTests.test_empty_json) ... ok
+test_excel_preserves_text_and_never_executes_formula (test_pipeline.IntegrationTests.test_excel_preserves_text_and_never_executes_formula) ... ok
+test_failed_write_does_not_replace_existing_output (test_pipeline.IntegrationTests.test_failed_write_does_not_replace_existing_output) ... ok
+test_full_file_pipeline_and_header_only_output (test_pipeline.IntegrationTests.test_full_file_pipeline_and_header_only_output) ... ok
+test_aggregate_preserves_source_order_and_all_quad_elements (test_pipeline.ProcessingTests.test_aggregate_preserves_source_order_and_all_quad_elements) ... ok
+test_alias_unknown_polarity_and_collision (test_pipeline.ProcessingTests.test_alias_unknown_polarity_and_collision) ... ok
+test_bad_metadata_fields (test_pipeline.ProcessingTests.test_bad_metadata_fields) ... ok
+test_blank_aspect_ignored_and_literal_null_preserved (test_pipeline.ProcessingTests.test_blank_aspect_ignored_and_literal_null_preserved) ... ok
+test_final_schema_accepts_lowercase_date (test_pipeline.ProcessingTests.test_final_schema_accepts_lowercase_date) ... ok
+test_final_schema_conflicting_dates_and_reserved_aspect (test_pipeline.ProcessingTests.test_final_schema_conflicting_dates_and_reserved_aspect) ... ok
+test_final_schema_drops_quads_scores_and_extra_fields (test_pipeline.ProcessingTests.test_final_schema_drops_quads_scores_and_extra_fields) ... ok
+test_incomplete_quad_columns_rejected (test_pipeline.ProcessingTests.test_incomplete_quad_columns_rejected) ... ok
+test_index_exact_match_and_lowercase_date (test_pipeline.ProcessingTests.test_index_exact_match_and_lowercase_date) ... ok
+test_invalid_json_schema (test_pipeline.ProcessingTests.test_invalid_json_schema) ... ok
+test_missing_and_duplicate_metadata_id (test_pipeline.ProcessingTests.test_missing_and_duplicate_metadata_id) ... ok
+test_query_and_analysis_ignore_999 (test_pipeline.ProcessingTests.test_query_and_analysis_ignore_999) ... ok
+test_repeated_positive_aspect_accumulates (test_pipeline.ProcessingTests.test_repeated_positive_aspect_accumulates) ... ok
+test_sentiment_sign_and_ties (test_pipeline.ProcessingTests.test_sentiment_sign_and_ties) ... ok
+test_threshold_19_20_and_natural_sort (test_pipeline.ProcessingTests.test_threshold_19_20_and_natural_sort) ... ok
+test_vectors_cancellation_neutral_and_missing (test_pipeline.ProcessingTests.test_vectors_cancellation_neutral_and_missing) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 4.981s
+
+OK

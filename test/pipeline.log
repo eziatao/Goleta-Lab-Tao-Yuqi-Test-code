@@ -1,0 +1,133 @@
+Starting json_to_excel
+Finished json_to_excel: {"input_sentences": 140450, "output_reviews": 81611, "quad_columns": 80, "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\json_to_excel.xlsx", "elapsed_seconds": 11.363}
+Starting data_indexing
+Finished data_indexing: {"matched_reviews": 81611, "metadata_rows": 170716, "unmatched_reviews": 0, "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\output.xlsx", "elapsed_seconds": 39.831}
+Starting data_filter
+Finished data_filter: {"input_reviews": 81611, "retained_reviews": 81577, "removed_reviews": 34, "retained_businesses": 477, "removed_businesses": 13, "min_count": 20, "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\filted.xlsx", "elapsed_seconds": 27.194}
+Starting sentiment_counting
+Finished sentiment_counting: {"reviews": 81577, "ties": 0, "tie_break": "positive", "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\sentiment_counted.xlsx", "elapsed_seconds": 26.142}
+Starting aspect_vector_creating
+Finished aspect_vector_creating: {"reviews": 81577, "aspect_columns": ["restaurant general", "restaurant miscellaneous", "service general", "food style_options", "drinks style_options", "food quality", "location general", "food prices", "drinks quality", "ambience general", "restaurant prices", "drinks prices", "food poisoning", "food choices", "spice level", "peacemaker", "restaurant choices", "restaurant mist stop", "restaurant misters", "food timing", "drinks service general", "restaurant quality", "parking general", "coffee quality", "dining style_options", "weather general", "airport general", "policy general", "drinks speed", "restaurant misplaced", "traffic general", "food offerings", "shampoo general", "layout general", "port general", "movie general", "water quality", "restaurant mister", "restaurant location", "character general", "food allergies", "architecture general", "spirit general", "restaurant profits", "restaurant style_options", "service dogs", "food options", "drinks service", "food belt", "jewellery quality", "style general", "jewellery style_options", "jewellery prices", "packaging general", "culture general", "menu style_options", "band general", "company general", "restaurant size", "location location location general", "foodies", "property general", "food truck", "drink quality", "food stands", "presentation general", "country rock", "chef general", "location", "service dog vest", "organization general", "drinks knowledge", "drinks policy", "team general", "pace general"], "normalized_negatives": 3, "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\yelp_data_processed.xlsx", "elapsed_seconds": 66.929}
+{
+  "status": "complete",
+  "inputs": {
+    "json": "C:\\codex project\\data\\yelp-top300-final-0.7.json",
+    "metadata": "C:\\codex project\\data\\overall-sentiment.xlsx"
+  },
+  "stages": {
+    "json_to_excel": {
+      "input_sentences": 140450,
+      "output_reviews": 81611,
+      "quad_columns": 80,
+      "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\json_to_excel.xlsx",
+      "elapsed_seconds": 11.363
+    },
+    "data_indexing": {
+      "matched_reviews": 81611,
+      "metadata_rows": 170716,
+      "unmatched_reviews": 0,
+      "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\output.xlsx",
+      "elapsed_seconds": 39.831
+    },
+    "data_filter": {
+      "input_reviews": 81611,
+      "retained_reviews": 81577,
+      "removed_reviews": 34,
+      "retained_businesses": 477,
+      "removed_businesses": 13,
+      "min_count": 20,
+      "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\filted.xlsx",
+      "elapsed_seconds": 27.194
+    },
+    "sentiment_counting": {
+      "reviews": 81577,
+      "ties": 0,
+      "tie_break": "positive",
+      "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\sentiment_counted.xlsx",
+      "elapsed_seconds": 26.142
+    },
+    "aspect_vector_creating": {
+      "reviews": 81577,
+      "aspect_columns": [
+        "restaurant general",
+        "restaurant miscellaneous",
+        "service general",
+        "food style_options",
+        "drinks style_options",
+        "food quality",
+        "location general",
+        "food prices",
+        "drinks quality",
+        "ambience general",
+        "restaurant prices",
+        "drinks prices",
+        "food poisoning",
+        "food choices",
+        "spice level",
+        "peacemaker",
+        "restaurant choices",
+        "restaurant mist stop",
+        "restaurant misters",
+        "food timing",
+        "drinks service general",
+        "restaurant quality",
+        "parking general",
+        "coffee quality",
+        "dining style_options",
+        "weather general",
+        "airport general",
+        "policy general",
+        "drinks speed",
+        "restaurant misplaced",
+        "traffic general",
+        "food offerings",
+        "shampoo general",
+        "layout general",
+        "port general",
+        "movie general",
+        "water quality",
+        "restaurant mister",
+        "restaurant location",
+        "character general",
+        "food allergies",
+        "architecture general",
+        "spirit general",
+        "restaurant profits",
+        "restaurant style_options",
+        "service dogs",
+        "food options",
+        "drinks service",
+        "food belt",
+        "jewellery quality",
+        "style general",
+        "jewellery style_options",
+        "jewellery prices",
+        "packaging general",
+        "culture general",
+        "menu style_options",
+        "band general",
+        "company general",
+        "restaurant size",
+        "location location location general",
+        "foodies",
+        "property general",
+        "food truck",
+        "drink quality",
+        "food stands",
+        "presentation general",
+        "country rock",
+        "chef general",
+        "location",
+        "service dog vest",
+        "organization general",
+        "drinks knowledge",
+        "drinks policy",
+        "team general",
+        "pace general"
+      ],
+      "normalized_negatives": 3,
+      "output": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\yelp_data_processed.xlsx",
+      "elapsed_seconds": 66.929
+    }
+  }
+}
