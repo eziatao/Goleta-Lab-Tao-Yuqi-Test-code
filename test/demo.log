@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "source_sentences": 40,
+  "reviews_before_filter": 39,
+  "reviews_after_filter": 20,
+  "report": "C:\\Users\\EzioTao\\Documents\\Codex\\2026-09-11\\c-codex-project-yelp-data-processing\\work\\project\\test\\demo\\demo_report.json"
+}
